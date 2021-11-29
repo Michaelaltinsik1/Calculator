@@ -176,10 +176,14 @@ function equals(prevVal, currVal, operator){
 }
 function addToNumberToStorage(value){
     value += ""; 
-    if(prevValue === null){
+    if(prevValue === null || prevValue == 0){
         prevValue = value; 
     }
+    /*else if (currValue == 0){
+       Number(currValue) =  Number(currValue) + Number(value);
+    }*/
     else if(currOperator === null && prevValue != null){
+
         prevValue += value;
     }
     else if(currOperator != null && currValue === null){
@@ -213,6 +217,10 @@ function handleDot(obj){
         return currValue;
     }   
 }
+function checkIfCurrValueContainsDot(currValue){
+    currValue += "";
+    return currValue.includes(".");
+}
 function checkIfIncludesDot(value){
     value += "";
     if(currOperator === null && value != "null"){
@@ -226,6 +234,14 @@ function checkIfIncludesDot(value){
         }
     }
 
+}
+function checkPrevIsOperator(){
+    let display = getDisplay() + "";
+    console.log(display.charAt(display.length-1));
+    if(isOperator(display.charAt(display.length-1)) || display.charAt(display.length-1) == "."){
+        return true;
+    }
+    return false;
 }
 /**
  * view
@@ -287,8 +303,10 @@ function handleCalcClick(value){
     checkIfIncludesDot(prevValue);
     checkIfIncludesDot(currValue);
     if(isOperator(value)){
-        addToDisplay(value,display);
-        currOperator = value;  
+        if(!checkPrevIsOperator()){
+            addToDisplay(value,display);
+            currOperator = value; 
+        } 
     }
     else if(isNumber(value)){
         addToNumberToStorage(value);
@@ -312,7 +330,7 @@ function handleCalcClick(value){
         currValue = null;
     }
     else if(value === "DEL"){
-        if(getDisplay() != 0){
+        if((getDisplay() + "") != "0"){
             display = removeLastElement();
             renderDisplay(display);
         }
@@ -326,10 +344,11 @@ function handleCalcClick(value){
         else{
             currValue = handleDot({"current" : currValue});
             renderDisplay(prevValue + currOperator + currValue);
-        }
-        
-        
+        }     
     }
+    console.log("prev: " + prevValue);
+    console.log("display: " + display);
+    console.log("curr: " + currValue);
 }
 
 function addToDisplay(value, display){
@@ -347,7 +366,13 @@ function addToDisplay(value, display){
             display = removeLastElement();
             currOperator = value;
         }
-        display += value;
+        if(currValue == 0 && currOperator != null && display.charAt(display.length-1) != 0){
+            display += 0;
+        }
+        else if(currValue != 0){
+            display += value;
+        }
+        
     } 
     renderDisplay(display);
 }

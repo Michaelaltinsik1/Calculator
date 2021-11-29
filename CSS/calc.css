@@ -93,6 +93,7 @@ main{
     gap: 1.8rem;
 }
 .calc-view{
+    max-width: 320px; /**test phone**/
     display: flex;
     border-radius: 0.8rem;
     padding: 1.5rem;
@@ -351,6 +352,9 @@ button:hover{
         justify-self: flex-end;   
         min-height: 58%;
         min-width: 70%;
+    }
+    .calc-view{
+        max-width: none;
     }
     nav h2{
         justify-self: flex-end;
