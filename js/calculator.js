@@ -176,7 +176,7 @@ function equals(prevVal, currVal, operator){
 }
 function addToNumberToStorage(value){
     value += ""; 
-    if(prevValue === null || prevValue == 0){
+    if(prevValue === null || prevValue === "0"){
         prevValue = value; 
     }
     /*else if (currValue == 0){
@@ -199,6 +199,7 @@ function handleDot(obj){
             prevContainsDot = true;
             if(obj.previous === null){
                 prevValue = "0.";
+                prevContainsDot = true;
                 return prevValue;
             }
             return (obj.previous += ".");
@@ -210,6 +211,7 @@ function handleDot(obj){
             currContainsDot = true;
             if(obj.current === null){
                 currValue = "0.";
+                currContainsDot = true;
                 return currValue;
             }
             return (obj.current += ".");           
@@ -300,8 +302,8 @@ function addEventsCalcButtons(){
 
 function handleCalcClick(value){
     let display = getDisplay();
-    checkIfIncludesDot(prevValue);
-    checkIfIncludesDot(currValue);
+    /*checkIfIncludesDot(prevValue);
+    checkIfIncludesDot(currValue);*/
     if(isOperator(value)){
         if(!checkPrevIsOperator()){
             addToDisplay(value,display);
@@ -347,7 +349,7 @@ function handleCalcClick(value){
         }     
     }
     console.log("prev: " + prevValue);
-    console.log("display: " + display);
+    console.log("display: " + getDisplay());
     console.log("curr: " + currValue);
 }
 
